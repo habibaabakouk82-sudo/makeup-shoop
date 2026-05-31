@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Produits | Glamour Makeup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">Glamour Makeup</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="produits.html" class="active">Produits</a></li>
+                <li><a href="panier.html">Panier 🛒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Notre Collection Prestige</h1>
+        
+        <div class="products-grid">
+
+            <!-- Produit 1 -->
+            <div class="product-card">
+                <img src="images/p1.jpg" alt="Rouge à lèvres">
+                <h3>Rouge à Lèvres Matte Velours</h3>
+                <p class="description">Un rouge à lèvres sans transfert, hautement pigmenté, qui offre une couleur intense et un confort absolu.</p>
+                <div class="price-box">
+                    <span class="new-price">79 DH</span>
+                </div>
+                <div class="quantity-selector">
+                    <label>Quantité :</label>
+                    <input type="number" value="1" min="1" class="prod-qty">
+                </div>
+                <button class="btn-add">Ajouter au panier</button>
+            </div>
+
+            <!-- Produit 2 -->
+            <div class="product-card">
+                <img src="images/p2.jpg" alt="Fond de teint">
+                <h3>Fond de Teint Haute Couvrance</h3>
+                <p class="description">Formule fluide, légère et non grasse. Idéale pour camoufler les imperfections des peaux mixtes à grasses.</p>
+                <div class="price-box">
+                    <span class="new-price">149 DH</span>
+                </div>
+                <div class="quantity-selector">
+                    <label>Quantité :</label>
+                    <input type="number" value="1" min="1" class="prod-qty">
+                </div>
+                <button class="btn-add">Ajouter au panier</button>
+            </div>
+
+            <!-- Reprends ce bloc "product-card" pour ajouter les 8 autres produits -->
+
+        </div>
+    </main>
+
+    <footer>
+        <p>Tous droits réservés © 2026 - Glamour Makeup</p>
+    </footer>
+<script>
+// Fonction pour ajouter un produit au panier
+document.querySelectorAll('.btn-add').forEach((button, index) => {
+    button.addEventListener('click', () => {
+        // Récupérer la carte du produit
+        const card = button.closest('.product-card');
+        const title = card.querySelector('h3').innerText;
+        
+        // Récupérer le prix (extraire juste le nombre)
+        const priceText = card.querySelector('.new-price').innerText;
+        const price = parseFloat(priceText.replace('DH', '').trim());
+        
+        // Récupérer la quantité (si elle existe, sinon 1)
+        const qtyInput = card.querySelector('.prod-qty');
+        const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
+
+        // Créer l'objet produit
+        const produit = { title, price, quantity };
+
+        // Récupérer le panier existant ou en créer un nouveau
+        let panier = JSON.parse(localStorage.getItem('monPanier')) || [];
+
+        // Vérifier si le produit existe déjà dans le panier
+        const existingProduct = panier.find(item => item.title === produit.title);
+        if (existingProduct) {
+            existingProduct.quantity += produit.quantity;
+        } else {
+            panier.push(produit);
+        }
+
+        // Sauvegarder dans le localStorage
+        localStorage.setItem('monPanier', JSON.stringify(panier));
+
+        // Alerte sympa pour le client
+        alert(`✔ ${title} (x${quantity}) ajouté au panier !`);
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier | Glamour Makeup</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- غادي نزيدو ستايل خاص بالصفحة ديال السلة هنا باش تجي منظمة -->
+    <style>
+        .panier-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 40px 8%;
+        }
+        @media (max-width: 768px) {
+            .panier-container { grid-template-columns: 1fr; }
+        }
+        .items-list, .checkout-form {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .panier-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .panier-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .total-box {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 20px 0;
+            color: #e07a5f;
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-checkout {
+            width: 100%;
+            padding: 14px;
+            background-color: #2ec4b6; /* لون أخضر مريح وجذاب للطلب */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-checkout:hover {
+            background-color: #23a99d;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barre de Navigation -->
+    <header>
+        <div class="logo">Glamour Makeup</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="produits.html">Produits</a></li>
+                <li><a href="panier.html" class="active">Panier 🛒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1 style="text-align: center; margin-top: 30px; color: #2b2d42;">Votre Panier</h1>
+
+    <div class="panier-container">
+        
+        <!-- قسم عرض المنتجات المضافة -->
+        <div class="items-list">
+            <h3>Produits sélectionnés</h3>
+            <div id="panier-items-container">
+                <!-- هنا غادي يبانو المنتجات بـ JavaScript ملي يختارهم الكليان -->
+                <p style="color: #888; margin-top: 20px;">Votre panier est vide pour le moment.</p>
+            </div>
+            
+            <div class="total-box">
+                <span>Total de la commande :</span>
+                <span id="panier-total">0 DH</span>
+            </div>
+        </div>
+
+        <!-- استمارة معلومات الزبون -->
+        <div class="checkout-form">
+            <h3>Informations de Livraison</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Remplissez vos informations pour finaliser la commande via WhatsApp.</p>
+            
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="fullName">Nom complet *</label>
+                    <input type="text" id="fullName" placeholder="Votre nom et prénom" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Numéro de téléphone *</label>
+                    <input type="tel" id="phone" placeholder="Ex: 0612345678" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Ville *</label>
+                    <input type="text" id="city" placeholder="Votre ville" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Adresse complète *</label>
+                    <input type="text" id="address" placeholder="Quartier, N° de maison..." required>
+                </div>
+
+                <button type="submit" class="btn-checkout">Confirmer et envoyer via WhatsApp 💬</button>
+            </form>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Tous droits réservés © 2026 - Glamour Makeup</p>
+    </footer>
+<script>
+// Récupérer le numéro de téléphone de votre boutique (Mettez le vôtre ici au format international sans le +)
+// Exemple pour le Maroc : 212612345678
+const MON_NUMERO_WHATSAPP = "212616/829451"; 
+
+const panierItemsContainer = document.getElementById('panier-items-container');
+const panierTotalText = document.getElementById('panier-total');
+
+// 1. Fonction pour afficher les produits du panier
+function afficherPanier() {
+    let panier = JSON.parse(localStorage.getItem('monPanier')) || [];
+    
+    if (panier.length === 0) {
+        panierItemsContainer.innerHTML = '<p style="color: #888; margin-top: 20px;">Votre panier est vide pour le moment.</p>';
+        panierTotalText.innerText = "0 DH";
+        return;
+    }
+
+    panierItemsContainer.innerHTML = "";
+    let totalGlobal = 0;
+
+    panier.forEach((item, index) => {
+        let totalProduit = item.price * item.quantity;
+        totalGlobal += totalProduit;
+
+        panierItemsContainer.innerHTML += `
+            <div class="panier-item">
+                <div>
+                    <strong>${item.title}</strong><br>
+                    <small>${item.price} DH x ${item.quantity}</small>
+                </div>
+                <div>
+                    <span style="font-weight:600; margin-right:15px;">${totalProduit} DH</span>
+                    <button onclick="supprimerProduit(${index})" style="background:none; border:none; color:#e07a5f; cursor:pointer; font-weight:bold;">X</button>
+                </div>
+            </div>
+        `;
+    });
+
+    panierTotalText.innerText = totalGlobal + " DH";
+}
+
+// Fonction pour supprimer un produit du panier
+window.supprimerProduit = function(index) {
+    let panier = JSON.parse(localStorage.getItem('monPanier')) || [];
+    panier.splice(index, 1);
+    localStorage.setItem('monPanier', JSON.stringify(panier));
+    afficherPanier();
+};
+
+// 2. Gestion de l'envoi de la commande vers WhatsApp
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Empêcher le rechargement de la page
+
+    let panier = JSON.parse(localStorage.getItem('monPanier')) || [];
+    if (panier.length === 0) {
+        alert("Votre panier est vide. Ajoutez des produits avant de commander !");
+        return;
+    }
+
+    // Récupérer les infos du formulaire
+    const nom = document.getElementById('fullName').value;
+    const telephone = document.getElementById('phone').value;
+    const ville = document.getElementById('city').value;
+    const adresse = document.getElementById('address').value;
+
+    // Construire le message WhatsApp textuel
+    let message = `🌟 *NOUVELLE COMMANDE - GLAMOUR MAKEUP* 🌟\n\n`;
+    message += `👤 *Client :* ${nom}\n`;
+    message += `📞 *Téléphone :* ${telephone}\n`;
+    message += `📍 *Ville :* ${ville}\n`;
+    message += `🏠 *Adresse :* ${adresse}\n\n`;
+    message += `🛍️ *Produits commandés :*\n`;
+
+    let totalGlobal = 0;
+    panier.forEach(item => {
+        let totalProduit = item.price * item.quantity;
+        totalGlobal += totalProduit;
+        message += `- ${item.title} (x${item.quantity}) : ${totalProduit} DH\n`;
+    });
+
+    message += `\n💰 *TOTAL À PAYER : ${totalGlobal} DH*`;
+    message += `\n\n_Livraison à domicile prévue bientôt._`;
+
+    // Encoder le message pour l'URL
+    let urlWhatsApp = `https://wa.me/${MON_NUMERO_WHATSAPP}?text=${encodeURIComponent(message)}`;
+
+    // Vider le panier après commande
+    localStorage.removeItem('monPanier');
+
+    // Rediriger vers WhatsApp
+    window.location.href = urlWhatsApp;
+});
+
+// Charger le panier au démarrage de la page
+afficherPanier();
+</script>
+</body>
+</html>

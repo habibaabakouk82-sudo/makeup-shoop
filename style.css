@@ -1,0 +1,239 @@
+/* --- إعدادات عامة وتنسيق الخطوط --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #fcf8f8; /* خلفية ناعمة مائلة للوردي الخفيف جداً */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- شريط التنقل (Header / Navbar) --- */
+header {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #d4a373; /* لون ذهبي دافئ */
+    letter-spacing: 1px;
+}
+
+header nav ul {
+    display: flex;
+    list-style: none;
+}
+
+header nav ul li {
+    margin-left: 25px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    font-size: 15px;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover, header nav ul li a.active {
+    color: #e07a5f; /* لون وردي غامق جذاب */
+}
+
+/* --- الواجهة الترحيبية (Hero Section) --- */
+.hero {
+    background: linear-gradient(rgba(255, 230, 230, 0.6), rgba(255, 255, 255, 0.7)), url('images/hero-bg.jpg') no-repeat center center/cover;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: 45px;
+    color: #2b2d42;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #666;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+.btn-main {
+    display: inline-block;
+    padding: 12px 35px;
+    background-color: #e07a5f;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(224, 122, 95, 0.4);
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.btn-main:hover {
+    background-color: #d6684b;
+    transform: translateY(-3px);
+}
+
+/* --- شبكة المنتجات (Products Grid) --- */
+.container, .packs-section {
+    padding: 60px 8%;
+    text-align: center;
+}
+
+.page-title, .packs-section h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #2b2d42;
+    position: relative;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+/* --- كارت المنتج (Product Card) --- */
+.product-card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    font-size: 18px;
+    color: #2b2d42;
+    margin-bottom: 10px;
+}
+
+.product-card .description {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+    height: 65px;
+    overflow: hidden;
+}
+
+/* التخفيضات والأسعار */
+.price-box {
+    margin-bottom: 15px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #aaa;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.new-price {
+    color: #e07a5f;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* شارة التخفيض (Badge Promo) */
+.badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #e07a5f;
+    color: white;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+/* تحديد الكمية */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.quantity-selector label {
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.quantity-selector input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* زر أضف إلى السلة */
+.btn-add {
+    width: 100%;
+    padding: 12px;
+    background-color: #2b2d42;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #e07a5f;
+}
+
+/* --- أسفل الموقع (Footer) --- */
+footer {
+    background-color: #2b2d42;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 60px;
+    font-size: 14px;
+}

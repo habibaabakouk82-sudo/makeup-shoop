@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glamour Makeup | Accueil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Barre de Navigation -->
+    <header>
+        <div class="logo">Glamour Makeup</div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="produits.html">Produits</a></li>
+                <li><a href="panier.html">Panier 🛒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Section Hero -->
+    <section class="hero">
+        <h1>Sublimez votre beauté au quotidien</h1>
+        <p>Des produits de haute qualité, des prix irrésistibles et livraison partout au Maroc !</p>
+        <a href="produits.html" class="btn-main">Acheter Maintenant</a>
+    </section>
+
+    <!-- Section Offres Spéciales & Packs -->
+    <section class="packs-section">
+        <h2>Nos Packs en Promotion 🌟</h2>
+        <div class="products-grid">
+            
+            <!-- Pack 1 -->
+            <div class="product-card promo">
+                <span class="badge">Offre Limitée !</span>
+                <img src="images/pack1.jpg" alt="Pack VIP">
+                <h3>Pack VIP : Teint & Regard</h3>
+                <p class="description">Comprend un fond de teint mat, un mascara volume intense et un rouge à lèvres longue tenue 24h.</p>
+                <div class="price-box">
+                    <span class="old-price">450 DH</span>
+                    <span class="new-price">299 DH</span>
+                </div>
+                <button class="btn-add">Ajouter au panier</button>
+            </div>
+
+            <!-- Pack 2 -->
+            <div class="product-card promo">
+                <span class="badge">Promo -30%</span>
+                <img src="images/pack2.jpg" alt="Pack Glow">
+                <h3>Pack Glow : Éclat Naturel</h3>
+                <p class="description">Un highlighter liquide, un blush rosé naturel et un spray fixateur pour un teint frais toute la journée.</p>
+                <div class="price-box">
+                    <span class="old-price">300 DH</span>
+                    <span class="new-price">199 DH</span>
+                </div>
+                <button class="btn-add">Ajouter au panier</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Tous droits réservés © 2026 - Glamour Makeup</p>
+    </footer>
+<script>
+// هاد الكود خاص بالصفحة الرئيسية حيت ما فيهاش اختيار الكمية (كتزيد 1 تلقائياً)
+document.querySelectorAll('.btn-add').forEach((button) => {
+    button.addEventListener('click', () => {
+        const card = button.closest('.product-card');
+        const title = card.querySelector('h3').innerText;
+        
+        const priceText = card.querySelector('.new-price').innerText;
+        const price = parseFloat(priceText.replace('DH', '').trim());
+        
+        const produit = { title, price, quantity: 1 };
+
+        let panier = JSON.parse(localStorage.getItem('monPanier')) || [];
+
+        const existingProduct = panier.find(item => item.title === produit.title);
+        if (existingProduct) {
+            existingProduct.quantity += 1;
+        } else {
+            panier.push(produit);
+        }
+
+        localStorage.setItem('monPanier', JSON.stringify(panier));
+
+        alert(`✔ ${title} ajouté au panier !`);
+    });
+});
+</script>
+</body>
+</html>
